@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 296974830030606207}
   - component: {fileID: 296974830030606200}
   - component: {fileID: 296974830030606201}
+  - component: {fileID: 637434720434866124}
   m_Layer: 0
   m_Name: Opposom
   m_TagString: Untagged
@@ -144,3 +145,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: {x: -1, y: 0}
+--- !u!95 &637434720434866124
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296974830030606202}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 904f5a5f9e9ec0640b47488e3a0629d1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
