@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpposomBehaviourScript : MonoBehaviour
+public class OpposomController : MonoBehaviour
 {
     public Vector2 velocity = new Vector2(-1.0f, 0.0f);
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -19,4 +18,15 @@ public class OpposomBehaviourScript : MonoBehaviour
 
         transform.position = newPosition;
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        //Checks if other gameobject has a Tag of Player
+        if (other.gameObject.tag == "Player")
+        {
+            other.gameObject.GetComponent<PlayerController>().health -= 1;
+        }
+        velocity.x *= -1.0f;
+    }
+
 }
