@@ -17,6 +17,17 @@ public class OpposomController : MonoBehaviour
         Vector2 newPosition = currentPosition + velocity * Time.deltaTime;
 
         transform.position = newPosition;
+	
+	Vector3 characterScale = transform.localScale;
+	if (velocity.x > 0f)
+	{
+	    characterScale.x = -5;
+	}
+	if (velocity.x < 0f)
+	{
+	    characterScale.x = 5;
+	}
+	transform.localScale = characterScale;
     }
 
     void OnTriggerEnter2D(Collider2D other)
