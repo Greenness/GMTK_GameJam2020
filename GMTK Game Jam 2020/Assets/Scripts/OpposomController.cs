@@ -26,6 +26,7 @@ public class OpposomController : MonoBehaviour
         {
             other.gameObject.GetComponent<PlayerController>().health -= 1;
         }
+        velocity.x *= -1.0f;
     }
 
 }
