@@ -25,7 +25,6 @@ public class OpposomController : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             other.gameObject.GetComponent<PlayerController>().health -= 1;
-            Time.timeScale = 0;
         }
     }
 

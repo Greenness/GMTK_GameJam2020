@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
         {
             print("He ded");
             transform.position = new Vector2(-20.0f, -20.0f);
+            this.gameObject.SetActive(false);
             health = -1;
         }
     }
