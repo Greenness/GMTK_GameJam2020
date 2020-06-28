@@ -8,7 +8,6 @@ public class OpposomController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        print("Starting Opposom");
     }
 
     // Update is called once per frame
@@ -22,11 +21,9 @@ public class OpposomController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        print("Hit Something!");
         //Checks if other gameobject has a Tag of Player
         if (other.gameObject.tag == "Player")
         {
-            print("Found player");
             other.gameObject.GetComponent<PlayerController>().health -= 1;
             Time.timeScale = 0;
         }
