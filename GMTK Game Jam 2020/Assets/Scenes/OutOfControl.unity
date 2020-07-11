@@ -485,6 +485,7 @@ MonoBehaviour:
   moveSpeed: 1
   botPrefab: {fileID: 6778318916055093886, guid: 8b1b26d61837bd94980f3f36a46cae66,
     type: 3}
+  botSpawnDist: 0.5
   sprites: []
   myDirection: 0
 --- !u!61 &586037036
