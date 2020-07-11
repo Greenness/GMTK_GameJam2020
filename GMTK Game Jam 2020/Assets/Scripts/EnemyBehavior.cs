@@ -13,19 +13,34 @@ public class EnemyBehavior : MonoBehaviour
 
     public EnemyType behaviorType;
     public Vector2 movement;
-    public float speed = 5.0f;
+    public float speed = 1.0f;
     Rigidbody2D rb;
     GameObject target;
+
+    //Directions
+    public enum Direction { up, down, left, right };
+    public Direction myDirection;
+
+    //Sprite and Animator
+    SpriteRenderer spriteRenderer;
+    Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
+        myDirection = Direction.down;
+        spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        anim = this.gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        ChangeDirection();
+        FlipSprites();
+        Animation();
+
         switch (behaviorType)
         {
             case EnemyType.Red:
@@ -93,10 +108,63 @@ public class EnemyBehavior : MonoBehaviour
         // Stay Still
     }
 
+    void ChangeDirection()
+    {
+        float x = movement.x;
+        float y = movement.y;
+        float absX = Mathf.Abs(x);
+        float absY = Mathf.Abs(y);
+
+        if (x > 0 && absX > absY)
+        {
+            myDirection = Direction.right;
+        }
+        else if (x < 0 && absX > absY)
+        {
+            myDirection = Direction.left;
+        }
+        else if (y > 0 && absY > absX)
+        {
+            myDirection = Direction.up;
+        }
+        else if (y < 0 && absY > absX)
+        {
+            myDirection = Direction.down;
+        }
+
+    }
+
+    void FlipSprites()
+    {
+        Sprite currentSprite = spriteRenderer.sprite;
+
+        if (myDirection == Direction.left)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else
+        {
+            spriteRenderer.flipX = false;
+        }
+    }
+
+    void Animation()
+    {
+        //Set Direction
+        anim.SetBool("Down", myDirection == Direction.down);
+        anim.SetBool("Up", myDirection == Direction.up);
+        anim.SetBool("Side", myDirection == Direction.right ^ myDirection == Direction.left);
+
+        //Is Moving?
+        //float speed = movement.magnitude;
+        //anim.SetBool("isMoving", speed > 0);
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject collidedObj = collision.gameObject;
-        switch(collidedObj.tag) { 
+        switch (collidedObj.tag)
+        {
             case "Bot":
             case "Player":
                 collidedObj.SetActive(false);
