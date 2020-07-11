@@ -8,10 +8,22 @@ using UnityEngine;
 public class ObjectPooler : MonoBehaviour
 {
     public static ObjectPooler SharedInstance;
-    public List<GameObject> pooledObjects;
     public GameObject objectToPool;
+    public List<GameObject> pooledObjects;
     public int startAmountToPool;
     public int maxAmountToPool = -1;
+    public ObjectPooler(GameObject objToPool)
+    {
+        objectToPool = objToPool;
+        SharedInstance = this;
+        pooledObjects = new List<GameObject>();
+        for (int i = 0; i < startAmountToPool; i++)
+        {
+            GameObject obj = (GameObject)Instantiate(objectToPool);
+            obj.SetActive(false);
+            pooledObjects.Add(obj);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
