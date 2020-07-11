@@ -135,4 +135,20 @@ public class EnemyBehavior : MonoBehaviour
         //float speed = movement.magnitude;
         //anim.SetBool("isMoving", speed > 0);
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameObject collidedObj = collision.gameObject;
+        switch (collidedObj.tag)
+        {
+            case "Bot":
+            case "Player":
+                collidedObj.SetActive(false);
+                break;
+            case "Bullet":
+                this.gameObject.SetActive(false);
+                collidedObj.SetActive(false);
+                break;
+        }
+    }
 }

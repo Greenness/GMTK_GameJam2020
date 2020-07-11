@@ -137,4 +137,19 @@ public class BotBehavior : MonoBehaviour
         //Is Corrupted?
         anim.SetBool("isCorrupted", isCorrupted);
     }
+
+    GameObject FindTarget()
+    {
+        Collider2D[] detectedObjs = Physics2D.OverlapCircleAll(transform.position, 10.0f);
+        foreach (Collider2D detected in detectedObjs)
+        {
+            GameObject detectedObject = detected.gameObject;
+
+            if (detectedObject.tag == "Enemy")
+            {
+                return detectedObject;
+            }
+        }
+        return null;
+    }
 }
