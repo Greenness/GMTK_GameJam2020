@@ -15,6 +15,7 @@ public class EnemyBehavior : MonoBehaviour
     public Vector2 movement;
     public float speed = 5.0f;
     Rigidbody2D rb;
+    GameObject target;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +47,20 @@ public class EnemyBehavior : MonoBehaviour
 
     void RedUpdate()
     {
+        if (target == null || target.activeSelf == false)
+        {
+            target = FindTarget();
+        }
+        if (target != null) {
+            movement = (target.transform.position - transform.position).normalized * speed;
+        } else
+        {
+            movement = (new Vector3(0f, 0f, 0f) - transform.position).normalized * speed;
+        }
+    }
+
+    GameObject FindTarget()
+    {
         Collider2D[] detectedObjs = Physics2D.OverlapCircleAll(transform.position, 10.0f);
         foreach (Collider2D detected in detectedObjs)
         {
@@ -53,8 +68,7 @@ public class EnemyBehavior : MonoBehaviour
 
             if (detectedObject.tag == "Player")
             {
-                movement = (detected.transform.position - transform.position).normalized * speed;
-                break;
+                return detectedObject;
             }
         }
         foreach (Collider2D detected in detectedObjs)
@@ -63,10 +77,10 @@ public class EnemyBehavior : MonoBehaviour
 
             if (detectedObject.tag == "Bot")
             {
-                movement = (detected.transform.position - transform.position).normalized * speed;
-                break;
+                return detectedObject;
             }
         }
+        return null;
     }
 
     void BlueUpdate()

@@ -18,6 +18,7 @@ public class BotBehavior : MonoBehaviour
     Rigidbody2D rb;
     Vector2 movement;
     GameObject bullet;
+    GameObject target;
 
     // Start is called before the first frame update
     void Start()
@@ -48,23 +49,23 @@ public class BotBehavior : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 pos = rb.position + movement * Time.deltaTime;
-        pos.x = Mathf.Clamp(pos.x, 0.02f, 0.98f);
-        pos.y = Mathf.Clamp(pos.y, 0.02f, 0.98f);
+        pos.x = Mathf.Clamp(pos.x, -2f, 2f);
+        pos.y = Mathf.Clamp(pos.y, -2f, 2f);
         rb.MovePosition(pos);
     }
 
     void RedUpdate()
     {
-        Collider2D[] detectedObjs = Physics2D.OverlapCircleAll(transform.position, 10.0f);
-        movement.Set(0f, 0f);
-        foreach (Collider2D detected in detectedObjs)
+        if (target == null || target.activeSelf == false)
         {
-            GameObject detectedObject = detected.gameObject;
-            if (detectedObject.tag == "Enemy")
-            {
-                movement = (detected.transform.position - transform.position).normalized * speed;
-                break;
-            }
+            target = FindTarget();
+        }
+        if (target != null)
+        {
+            movement = (target.transform.position - transform.position).normalized * speed;
+        } else
+        {
+            movement.Set(0f, 0f);
         }
 
         if (this.bullet == null || this.bullet.activeSelf == false)
@@ -75,7 +76,6 @@ public class BotBehavior : MonoBehaviour
                 GameObject hittabledObject = hittable.gameObject;
                 if (hittabledObject.tag == "Enemy")
                 {
-                    Debug.Log("Found hittable enemy!");
                     Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
                     Vector2 bulletSpeed = hittableDirection * 1.0f;
                     Vector3 bulletStartingPosition = transform.position + hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
@@ -96,5 +96,21 @@ public class BotBehavior : MonoBehaviour
     void GreenUpdate()
     {
         // Stay Still
+    }
+
+
+    GameObject FindTarget()
+    {
+        Collider2D[] detectedObjs = Physics2D.OverlapCircleAll(transform.position, 10.0f);
+        foreach (Collider2D detected in detectedObjs)
+        {
+            GameObject detectedObject = detected.gameObject;
+
+            if (detectedObject.tag == "Enemy")
+            {
+                return detectedObject;
+            }
+        }
+        return null;
     }
 }
