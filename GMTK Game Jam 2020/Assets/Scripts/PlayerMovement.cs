@@ -82,16 +82,24 @@ public class PlayerMovement : MonoBehaviour
 
     void ChangeDirection()
     {
-        if (movement.x > 0)
+        float x = movement.x;
+        float y = movement.y;
+        float absX = Mathf.Abs(x);
+        float absY = Mathf.Abs(y);
+
+        if (x > 0 && absX > absY)
         {
             myDirection = Direction.right;
-        } else if (movement.x < 0)
+        }
+        else if (x < 0 && absX > absY)
         {
             myDirection = Direction.left;
-        } else if (movement.y > 0)
+        }
+        else if (y > 0 && absY > absX)
         {
             myDirection = Direction.up;
-        } else if (movement.y < 0)
+        }
+        else if (y < 0 && absY > absX)
         {
             myDirection = Direction.down;
         }
