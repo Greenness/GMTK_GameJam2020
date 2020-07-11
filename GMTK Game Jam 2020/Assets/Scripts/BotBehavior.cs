@@ -8,7 +8,8 @@ public class BotBehavior : MonoBehaviour
     {
         Red,
         Blue,
-        Green
+        Green,
+        NumBotTypes
     }
 
     public BehaviorType behaviorType;
