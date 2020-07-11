@@ -7,8 +7,10 @@ public class ScoreKeeper : MonoBehaviour
 {
     public GameObject enemyPrefab;
     ObjectPooler enemyPooler;
+    public GameObject bulletPrefab;
+    ObjectPooler bulletPooler;
     int wave;
-    private float waitTime = 1.0f;
+    private float waitTime = 5.0f;
     private float timer = 0.0f;
     TextMeshProUGUI waveText;
 
@@ -16,6 +18,7 @@ public class ScoreKeeper : MonoBehaviour
     void Start()
     {
         enemyPooler = new ObjectPooler(enemyPrefab);
+        bulletPooler = new ObjectPooler(bulletPrefab);
         wave = 0;
         waveText = this.gameObject.GetComponent<TextMeshProUGUI>();
     }
@@ -73,5 +76,20 @@ public class ScoreKeeper : MonoBehaviour
             newEnemyScript.behaviorType = EnemyBehavior.EnemyType.Red;
             newEnemy.SetActive(true);
         }
+    }
+
+    public GameObject GetNewBullet(Vector3 bulletPosition, Vector2 bulletSpeed, float lifeSpan)
+    {
+
+        GameObject newBullet = bulletPooler.GetPooledObject();
+        if (newBullet != null)
+        {
+            newBullet.transform.position = bulletPosition;
+            BulletBehavior newBulletScript = newBullet.GetComponent<BulletBehavior>();
+            newBulletScript.movement = bulletSpeed;
+            newBulletScript.lifeSpan = lifeSpan;
+            newBullet.SetActive(true);
+        }
+        return newBullet;
     }
 }
