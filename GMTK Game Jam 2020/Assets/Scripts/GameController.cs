@@ -54,37 +54,36 @@ public class GameController : MonoBehaviour
         if (wave == 1)
         {
             Vector3 initialLocation = new Vector3(-3f, -1f);
-            SpawnEnemy(initialLocation);
+            SpawnEnemy(initialLocation, EnemyBehavior.EnemyType.Red);
         } else if (wave % 2 == 0)
         {
             int numEnemies = (int)Mathf.Log(wave, 2f) + 1;
             for (int i = 0; i < numEnemies; i++)
             {
-                float angle = 2.0f * Mathf.PI * Random.Range(0f, 1f);
-                Vector3 initialLocation = new Vector3(3 * Mathf.Cos(angle), 3 * Mathf.Sin(angle));
-                SpawnEnemy(initialLocation);
+                Vector3 initialLocation = 3 * Random.onUnitSphere;
+                SpawnEnemy(initialLocation, (EnemyBehavior.EnemyType)Random.Range(0f, (float)EnemyBehavior.EnemyType.NumEnemyTypes));
             }
         } else
         {
             int numEnemies = wave / 2;
             for (int i = 0; i < numEnemies; i++)
             {
-                float angle = 2.0f * Mathf.PI * Random.Range(0f, 1f);
-                Vector3 initialLocation = new Vector3(3 * Mathf.Cos(angle), 3 * Mathf.Sin(angle));
-                SpawnEnemy(initialLocation);
+                Vector3 initialLocation = 3 * Random.onUnitSphere;
+                SpawnEnemy(initialLocation, (EnemyBehavior.EnemyType)Random.Range(0f, (float)EnemyBehavior.EnemyType.NumEnemyTypes));
             }
 
         }
     }
 
-    void SpawnEnemy(Vector3 startLocation)
+    void SpawnEnemy(Vector3 startLocation, EnemyBehavior.EnemyType bType)
     {
         GameObject newEnemy = enemyPooler.GetPooledObject();
         if (newEnemy != null)
         {
             newEnemy.transform.position = startLocation;
             EnemyBehavior newEnemyScript = newEnemy.GetComponent<EnemyBehavior>();
-            newEnemyScript.behaviorType = EnemyBehavior.EnemyType.Red;
+            newEnemyScript.behaviorType = bType;
+            newEnemyScript.movement = Random.onUnitSphere;
             newEnemyScript.gameControllerInstance = this.gameObject;
             newEnemy.SetActive(true);
         }

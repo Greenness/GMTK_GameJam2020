@@ -8,7 +8,8 @@ public class BotBehavior : MonoBehaviour
     {
         Red,
         Blue,
-        Green
+        Green,
+        NumBotTypes
     }
 
     public GameObject gameControllerInstance;
@@ -92,8 +93,8 @@ public class BotBehavior : MonoBehaviour
                 if (hittabledObject.tag == "Enemy")
                 {
                     Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
-                    Vector2 bulletSpeed = hittableDirection * 1.0f;
-                    Vector3 bulletStartingPosition = transform.position + hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
+                    Vector2 bulletSpeed = hittableDirection * 5.0f;
+                    Vector3 bulletStartingPosition = transform.position + 2f * hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
                     bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletSpeed, 5f);
                     break;
                 }

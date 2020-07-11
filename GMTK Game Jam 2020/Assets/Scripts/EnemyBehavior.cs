@@ -8,7 +8,8 @@ public class EnemyBehavior : MonoBehaviour
     {
         Red,
         Blue,
-        Green
+        Green,
+        NumEnemyTypes
     }
 
     public GameObject gameControllerInstance;
@@ -106,7 +107,16 @@ public class EnemyBehavior : MonoBehaviour
 
     void GreenUpdate()
     {
-        // Stay Still
+        // Bounce within Camera
+        Vector3 posInCamera = Camera.main.WorldToViewportPoint(transform.position);
+        if ((posInCamera.x > 0.98f && movement.x > 0) || (posInCamera.x < 0.02f && movement.x < 0))
+        {
+            movement.x *= -1;
+        }
+        if ((posInCamera.y > 0.98f && movement.y > 0) || (posInCamera.y < 0.02f && movement.y < 0))
+        {
+            movement.y *= -1;
+        }
     }
 
     void ChangeDirection()
