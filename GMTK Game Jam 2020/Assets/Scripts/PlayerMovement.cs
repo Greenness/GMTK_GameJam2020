@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Vector3 pos;
     public float moveSpeed = 10f;
-    public Rigidbody2D rb;
+    Vector3 pos;
+    Rigidbody2D rb;
     Vector2 movement;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        rb = this.gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
