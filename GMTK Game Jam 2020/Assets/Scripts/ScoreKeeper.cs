@@ -10,9 +10,11 @@ public class ScoreKeeper : MonoBehaviour
     public GameObject bulletPrefab;
     ObjectPooler bulletPooler;
     int wave;
+    int score;
+    int corruptionChance;
     private float waitTime = 5.0f;
     private float timer = 0.0f;
-    TextMeshProUGUI waveText;
+    public TextMeshProUGUI waveText, scoreText, corruptionChanceText;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +22,7 @@ public class ScoreKeeper : MonoBehaviour
         enemyPooler = new ObjectPooler(enemyPrefab);
         bulletPooler = new ObjectPooler(bulletPrefab);
         wave = 0;
-        waveText = this.gameObject.GetComponent<TextMeshProUGUI>();
+
     }
 
     // Update is called once per frame
@@ -35,6 +37,8 @@ public class ScoreKeeper : MonoBehaviour
             waveText.SetText("Wave: " + wave);
             SpawnEnemies();
         }
+        scoreText.SetText("Score: " + score);
+        corruptionChanceText.SetText("Corruption Chance: " + corruptionChance + "%");
 
     }
 
