@@ -165,8 +165,10 @@ public class EnemyBehavior : MonoBehaviour
         GameObject collidedObj = collision.gameObject;
         switch (collidedObj.tag)
         {
-            case "Bot":
             case "Player":
+                collidedObj.SetActive(false);
+                break;
+            case "Bot":
                 collidedObj.SetActive(false);
                 break;
             case "Bullet":

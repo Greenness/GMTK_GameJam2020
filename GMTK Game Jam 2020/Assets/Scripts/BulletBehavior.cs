@@ -22,7 +22,6 @@ public class BulletBehavior : MonoBehaviour
 
         if (duration > lifeSpan)
         {
-            Debug.Log("Bye bye bullet");
             this.gameObject.SetActive(false);
         }
     }

@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 10f;
-    public GameObject scoreKeeperInstance;
-    public GameObject botPrefab;
-    ObjectPooler botPooler;
-    public float botSpawnDist = 0.5f;
+    public GameObject gameControllerInstance;
     Vector3 pos;
     Rigidbody2D rb;
     Vector2 movement;
-    
+
+    float moveSpeed = 5f;
+    float botSpawnDist = 0.5f;
+
     //Sprites and Animator
     public Sprite[] sprites;
     SpriteRenderer spriteRenderer;
@@ -26,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
-        botPooler = new ObjectPooler(botPrefab);
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         myDirection = Direction.down;
         sprites = new Sprite[3];
@@ -66,21 +64,13 @@ public class PlayerMovement : MonoBehaviour
 
     void CreateBot(BotBehavior.BehaviorType bType)
     {
-        GameObject newBot = botPooler.GetPooledObject();
-        if (newBot != null)
-        {
-            Vector3 offset = new Vector3(0f, 0f, 0f);
-            if (myDirection == Direction.up) { offset.y = botSpawnDist; }
-            else if (myDirection == Direction.down) { offset.y = -botSpawnDist; }
-            else if (myDirection == Direction.right) { offset.x = botSpawnDist; }
-            else if (myDirection == Direction.left) { offset.x = -botSpawnDist; }
+        Vector3 offset = transform.position;
+        if (myDirection == Direction.up) { offset.y = botSpawnDist; }
+        else if (myDirection == Direction.down) { offset.y = -botSpawnDist; }
+        else if (myDirection == Direction.right) { offset.x = botSpawnDist; }
+        else if (myDirection == Direction.left) { offset.x = -botSpawnDist; }
 
-            newBot.transform.position = transform.position + offset;
-            BotBehavior newBotScript = newBot.GetComponent<BotBehavior>();
-            newBotScript.behaviorType = bType;
-            newBotScript.scoreKeeperInstance = this.scoreKeeperInstance;
-            newBot.SetActive(true);
-        }
+        this.gameControllerInstance.GetComponent<GameController>().GetNewBot(offset, bType);
     }
 
 

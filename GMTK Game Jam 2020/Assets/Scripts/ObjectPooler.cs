@@ -11,7 +11,6 @@ public class ObjectPooler : MonoBehaviour
     public GameObject objectToPool;
     public List<GameObject> pooledObjects;
     public int startAmountToPool;
-    public int maxAmountToPool = -1;
     public ObjectPooler(GameObject objToPool)
     {
         objectToPool = objToPool;
@@ -46,10 +45,6 @@ public class ObjectPooler : MonoBehaviour
             {
                 return pooledObjects[i];
             }
-        }
-        if (maxAmountToPool > 0)
-        {
-            return null;
         }
 
         GameObject obj = (GameObject)Instantiate(objectToPool);

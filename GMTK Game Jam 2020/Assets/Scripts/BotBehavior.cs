@@ -12,12 +12,12 @@ public class BotBehavior : MonoBehaviour
     }
 
     public BehaviorType behaviorType;
-    public GameObject scoreKeeperInstance;
+    public GameObject gameControllerInstance;
     public bool isCorrupted;
     public float speed;
+    public GameObject bullet;
     Rigidbody2D rb;
     Vector2 movement;
-    GameObject bullet;
     GameObject target;
 
     //Directions
@@ -94,7 +94,7 @@ public class BotBehavior : MonoBehaviour
                     Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
                     Vector2 bulletSpeed = hittableDirection * 1.0f;
                     Vector3 bulletStartingPosition = transform.position + hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
-                    bullet = scoreKeeperInstance.GetComponent<ScoreKeeper>().GetNewBullet(bulletStartingPosition, bulletSpeed, 5f);
+                    bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletSpeed, 5f);
                     break;
                 }
             }

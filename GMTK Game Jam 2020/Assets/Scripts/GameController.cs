@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ScoreKeeper : MonoBehaviour
+public class GameController : MonoBehaviour
 {
+    public GameObject playerPrefab;
+    public GameObject botPrefab;
     public GameObject enemyPrefab;
-    ObjectPooler enemyPooler;
     public GameObject bulletPrefab;
+    ObjectPooler botPooler;
+    ObjectPooler enemyPooler;
     ObjectPooler bulletPooler;
     int wave;
     int score;
@@ -19,10 +22,14 @@ public class ScoreKeeper : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        botPooler = new ObjectPooler(botPrefab);
         enemyPooler = new ObjectPooler(enemyPrefab);
         bulletPooler = new ObjectPooler(bulletPrefab);
-        wave = 0;
 
+        GameObject playerObj = (GameObject)Instantiate(playerPrefab);
+        PlayerMovement playerScript = playerObj.GetComponent<PlayerMovement>();
+        playerScript.gameControllerInstance = this.gameObject;
+        wave = 0;
     }
 
     // Update is called once per frame
@@ -95,5 +102,20 @@ public class ScoreKeeper : MonoBehaviour
             newBullet.SetActive(true);
         }
         return newBullet;
+    }
+
+    public GameObject GetNewBot(Vector3 botPosition, BotBehavior.BehaviorType bType)
+    {
+        GameObject newBot = botPooler.GetPooledObject();
+        if (newBot != null)
+        {
+            newBot.transform.position = botPosition;
+            BotBehavior newBotScript = newBot.GetComponent<BotBehavior>();
+            newBotScript.behaviorType = bType;
+            newBotScript.gameControllerInstance = this.gameObject;
+            newBotScript.bullet = null;
+            newBot.SetActive(true);
+        }
+        return newBot;
     }
 }
