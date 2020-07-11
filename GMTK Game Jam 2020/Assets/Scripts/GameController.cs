@@ -84,6 +84,7 @@ public class GameController : MonoBehaviour
             EnemyBehavior newEnemyScript = newEnemy.GetComponent<EnemyBehavior>();
             newEnemyScript.behaviorType = bType;
             newEnemyScript.movement = Random.onUnitSphere;
+            newEnemyScript.gameControllerInstance = this.gameObject;
             newEnemy.SetActive(true);
         }
     }
@@ -116,5 +117,10 @@ public class GameController : MonoBehaviour
             newBot.SetActive(true);
         }
         return newBot;
+    }
+
+    public void AddScore(int points)
+    {
+        score += points;
     }
 }

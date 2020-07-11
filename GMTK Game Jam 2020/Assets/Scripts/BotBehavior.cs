@@ -12,8 +12,8 @@ public class BotBehavior : MonoBehaviour
         NumBotTypes
     }
 
-    public BehaviorType behaviorType;
     public GameObject gameControllerInstance;
+    public BehaviorType behaviorType;
     public bool isCorrupted;
     public float speed;
     public GameObject bullet;
@@ -65,7 +65,7 @@ public class BotBehavior : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 pos = rb.position + movement * Time.deltaTime;
-        pos.x = Mathf.Clamp(pos.x, -2f, 2f);
+        pos.x = Mathf.Clamp(pos.x, -5f, 5f);
         pos.y = Mathf.Clamp(pos.y, -2f, 2f);
         rb.MovePosition(pos);
     }
