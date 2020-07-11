@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 883916290}
   m_Layer: 0
   m_Name: Bot
-  m_TagString: Untagged
+  m_TagString: Bot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   behaviorType: 0
+  scoreKeeperInstance: {fileID: 0}
   isCorrupted: 0
   speed: 1
   myDirection: 0

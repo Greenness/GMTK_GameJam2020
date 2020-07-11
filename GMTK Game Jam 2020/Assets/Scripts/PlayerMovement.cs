@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 10f;
+    public GameObject scoreKeeperInstance;
     public GameObject botPrefab;
     ObjectPooler botPooler;
     public float botSpawnDist = 0.5f;
@@ -77,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
             newBot.transform.position = transform.position + offset;
             BotBehavior newBotScript = newBot.GetComponent<BotBehavior>();
             newBotScript.behaviorType = bType;
+            newBotScript.scoreKeeperInstance = this.scoreKeeperInstance;
             newBot.SetActive(true);
         }
     }
