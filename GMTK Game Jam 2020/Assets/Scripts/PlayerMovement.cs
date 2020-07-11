@@ -65,10 +65,10 @@ public class PlayerMovement : MonoBehaviour
     void CreateBot(BotBehavior.BehaviorType bType)
     {
         Vector3 offset = transform.position;
-        if (myDirection == Direction.up) { offset.y = botSpawnDist; }
-        else if (myDirection == Direction.down) { offset.y = -botSpawnDist; }
-        else if (myDirection == Direction.right) { offset.x = botSpawnDist; }
-        else if (myDirection == Direction.left) { offset.x = -botSpawnDist; }
+        if (myDirection == Direction.up) { offset.y += botSpawnDist; }
+        else if (myDirection == Direction.down) { offset.y -= botSpawnDist; }
+        else if (myDirection == Direction.right) { offset.x += botSpawnDist; }
+        else if (myDirection == Direction.left) { offset.x -= botSpawnDist; }
 
         this.gameControllerInstance.GetComponent<GameController>().GetNewBot(offset, bType);
     }

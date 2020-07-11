@@ -11,6 +11,7 @@ public class EnemyBehavior : MonoBehaviour
         Green
     }
 
+    public GameObject gameControllerInstance;
     public EnemyType behaviorType;
     public Vector2 movement;
     public float speed = 1.0f;
@@ -174,6 +175,7 @@ public class EnemyBehavior : MonoBehaviour
             case "Bullet":
                 this.gameObject.SetActive(false);
                 collidedObj.SetActive(false);
+                this.gameControllerInstance.GetComponent<GameController>().AddScore(1);
                 break;
         }
     }
