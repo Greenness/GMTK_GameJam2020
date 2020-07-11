@@ -46,12 +46,22 @@ public class EnemyBehavior : MonoBehaviour
 
     void RedUpdate()
     {
-        Collider2D[] detectedObjs = Physics2D.OverlapCircleAll(transform.position, 20.0f);
+        Collider2D[] detectedObjs = Physics2D.OverlapCircleAll(transform.position, 10.0f);
         foreach (Collider2D detected in detectedObjs)
         {
             GameObject detectedObject = detected.gameObject;
 
             if (detectedObject.tag == "Player")
+            {
+                movement = (detected.transform.position - transform.position).normalized * speed;
+                break;
+            }
+        }
+        foreach (Collider2D detected in detectedObjs)
+        {
+            GameObject detectedObject = detected.gameObject;
+
+            if (detectedObject.tag == "Bot")
             {
                 movement = (detected.transform.position - transform.position).normalized * speed;
                 break;
@@ -67,5 +77,20 @@ public class EnemyBehavior : MonoBehaviour
     void GreenUpdate()
     {
         // Stay Still
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameObject collidedObj = collision.gameObject;
+        switch(collidedObj.tag) { 
+            case "Bot":
+            case "Player":
+                collidedObj.SetActive(false);
+                break;
+            case "Bullet":
+                this.gameObject.SetActive(false);
+                collidedObj.SetActive(false);
+                break;
+        }
     }
 }

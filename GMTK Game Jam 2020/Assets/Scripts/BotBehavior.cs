@@ -12,16 +12,18 @@ public class BotBehavior : MonoBehaviour
     }
 
     public BehaviorType behaviorType;
+    public GameObject scoreKeeperInstance;
     public bool isCorrupted;
+    public float speed;
     Rigidbody2D rb;
     Vector2 movement;
-    public float speed;
+    GameObject bullet;
 
     // Start is called before the first frame update
     void Start()
     {
         isCorrupted = false;
-        //speed = 5.0f;
+        bullet = null;
         rb = this.gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -45,12 +47,16 @@ public class BotBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * Time.deltaTime);
+        Vector2 pos = rb.position + movement * Time.deltaTime;
+        pos.x = Mathf.Clamp(pos.x, 0.02f, 0.98f);
+        pos.y = Mathf.Clamp(pos.y, 0.02f, 0.98f);
+        rb.MovePosition(pos);
     }
 
     void RedUpdate()
     {
-        Collider2D[] detectedObjs = Physics2D.OverlapCircleAll(transform.position, 20.0f);
+        Collider2D[] detectedObjs = Physics2D.OverlapCircleAll(transform.position, 10.0f);
+        movement.Set(0f, 0f);
         foreach (Collider2D detected in detectedObjs)
         {
             GameObject detectedObject = detected.gameObject;
@@ -60,6 +66,26 @@ public class BotBehavior : MonoBehaviour
                 break;
             }
         }
+
+        if (this.bullet == null || this.bullet.activeSelf == false)
+        {
+            Collider2D[] hittableObjs = Physics2D.OverlapCircleAll(transform.position, 1);
+            foreach (Collider2D hittable in hittableObjs)
+            {
+                GameObject hittabledObject = hittable.gameObject;
+                if (hittabledObject.tag == "Enemy")
+                {
+                    Debug.Log("Found hittable enemy!");
+                    Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
+                    Vector2 bulletSpeed = hittableDirection * 1.0f;
+                    Vector3 bulletStartingPosition = transform.position + hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
+                    bullet = scoreKeeperInstance.GetComponent<ScoreKeeper>().GetNewBullet(bulletStartingPosition, bulletSpeed, 5f);
+                    break;
+                }
+            }
+
+        }
+
     }
 
     void BlueUpdate()
