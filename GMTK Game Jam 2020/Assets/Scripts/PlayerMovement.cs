@@ -4,48 +4,33 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
-    public float speed;
-    private Rigidbody2D rb;
-    private Vector2 moveVelocity;
-    public Animator animator;
-
+    public float moveSpeed = 10f;
+    Vector3 pos;
+    Rigidbody2D rb;
+    Vector2 movement;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-	animator = GetComponent<Animator>();
+        rb = this.gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical") / 3);
-        moveVelocity = moveInput.normalized * speed;
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
 
-	animator.SetFloat("Speed", moveVelocity.x);
-	if (moveVelocity.y > 0)
-	{
-	    animator.SetBool("isJumping", true);
-	} else {
-	    animator.SetBool("isJumping", false);
-	}
-	
-	Vector3 characterScale = transform.localScale;
-	if (moveVelocity.x >= 0f)
-	{
-	    characterScale.x = 8;
-	}
-	if (moveVelocity.x < 0f)
-	{
-	    characterScale.x = -8;
-	}
-	transform.localScale = characterScale;
+        //Keep player within camera boundaries
+        pos = Camera.main.WorldToViewportPoint(transform.position);
+        pos.x = Mathf.Clamp(pos.x, 0.02f, 0.98f);
+        pos.y = Mathf.Clamp(pos.y, 0.02f, 0.98f);
+        transform.position = Camera.main.ViewportToWorldPoint(pos);
 
     }
 
+
     void FixedUpdate() {
-        rb.MovePosition(rb.position + moveVelocity * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
     }
 }
