@@ -85,6 +85,7 @@ public class GameController : MonoBehaviour
             newEnemy.transform.position = startLocation;
             EnemyBehavior newEnemyScript = newEnemy.GetComponent<EnemyBehavior>();
             newEnemyScript.behaviorType = EnemyBehavior.EnemyType.Red;
+            newEnemyScript.gameControllerInstance = this.gameObject;
             newEnemy.SetActive(true);
         }
     }
@@ -117,5 +118,10 @@ public class GameController : MonoBehaviour
             newBot.SetActive(true);
         }
         return newBot;
+    }
+
+    public void AddScore(int points)
+    {
+        score += points;
     }
 }
