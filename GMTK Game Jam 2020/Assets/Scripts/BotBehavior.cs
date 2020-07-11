@@ -15,13 +15,13 @@ public class BotBehavior : MonoBehaviour
     public bool isCorrupted;
     Rigidbody2D rb;
     Vector2 movement;
-    float speed;
+    public float speed;
 
     // Start is called before the first frame update
     void Start()
     {
         isCorrupted = false;
-        speed = 5.0f;
+        //speed = 5.0f;
         rb = this.gameObject.GetComponent<Rigidbody2D>();
     }
 

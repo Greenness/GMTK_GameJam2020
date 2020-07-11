@@ -199,8 +199,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586037031}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.83460534, y: 1.1176496, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalPosition: {x: 0.599, y: 0.278, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc37a5b225c28da46bc3abc657e56fd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 1
 --- !u!61 &586037036
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -263,7 +263,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
 --- !u!1 &1161020001
 GameObject:
@@ -340,8 +340,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1161020001}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.004, y: 1.672, z: 10}
-  m_LocalScale: {x: 5.54372, y: 5.54372, z: 5.54372}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 5.54372}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -399,7 +399,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 1
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -439,12 +439,12 @@ PrefabInstance:
     - target: {fileID: 5795065396832125335, guid: 0bd43733f344ecb45b16625e615a71e3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.3308096
+      value: -1.16
       objectReference: {fileID: 0}
     - target: {fileID: 5795065396832125335, guid: 0bd43733f344ecb45b16625e615a71e3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.1885359
+      value: -0.06
       objectReference: {fileID: 0}
     - target: {fileID: 5795065396832125335, guid: 0bd43733f344ecb45b16625e615a71e3,
         type: 3}
@@ -505,20 +505,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6778318916055093881, guid: 8b1b26d61837bd94980f3f36a46cae66,
-        type: 3}
-      propertyPath: behaviorType
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6778318916055093882, guid: 8b1b26d61837bd94980f3f36a46cae66,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.33
+      value: 1.34
       objectReference: {fileID: 0}
     - target: {fileID: 6778318916055093882, guid: 8b1b26d61837bd94980f3f36a46cae66,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.62
+      value: -0.37
       objectReference: {fileID: 0}
     - target: {fileID: 6778318916055093882, guid: 8b1b26d61837bd94980f3f36a46cae66,
         type: 3}
