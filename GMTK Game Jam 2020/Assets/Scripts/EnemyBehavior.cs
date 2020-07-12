@@ -59,7 +59,14 @@ public class EnemyBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * Time.deltaTime);
+        if (gameControllerInstance.GetComponent<GameController>().IsNearBlueBot(rb.position, false)) 
+        {
+            rb.MovePosition((rb.position + (movement/2) * Time.deltaTime));
+        } else 
+        {
+            rb.MovePosition(rb.position + movement * Time.deltaTime);
+        }
+
     }
 
     void RedUpdate()

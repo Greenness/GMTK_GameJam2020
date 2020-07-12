@@ -226,4 +226,24 @@ public class GameController : MonoBehaviour
         corruptionChanceText.SetText("Corruption Chance: " + corruptionChance + "%");
         scoreText.SetText("Score: " + score);
     }
+
+    public bool IsNearBlueBot(Vector2 objectPosition, bool checkCorruptBot)
+    {
+        float threshold = 1f;
+        List<GameObject> botsList = botPooler.getAllPooledObjects();
+        for (int i = 0; i < botsList.Count; i++) 
+        {
+            if (botsList[i].GetComponent<BotBehavior>().behaviorType == BotBehavior.BehaviorType.Blue)
+            {
+                if (botsList[i].GetComponent<BotBehavior>().isCorrupted == checkCorruptBot && 
+                botsList[i].GetComponent<BotBehavior>().transform.position.x - objectPosition.x <= threshold &&
+                botsList[i].GetComponent<BotBehavior>().transform.position.y - objectPosition.y <= threshold)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
 }
