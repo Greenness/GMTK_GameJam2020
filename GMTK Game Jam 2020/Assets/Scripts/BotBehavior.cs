@@ -19,6 +19,8 @@ public class BotBehavior : MonoBehaviour
     public bool isCorrupted;
     Vector2 movement;
     GameObject target;
+    Material newMat;
+    bool isMaterialChanged = false;
 
     //Directions
     public enum Direction { up, down, left, right };
@@ -27,6 +29,7 @@ public class BotBehavior : MonoBehaviour
     //Sprite and Animator
     SpriteRenderer spriteRenderer;
     Animator anim;
+    public GameObject radius;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +39,14 @@ public class BotBehavior : MonoBehaviour
         myDirection = Direction.down;
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         anim = this.gameObject.GetComponent<Animator>();
+        if (BehaviorType.Blue == behaviorType)
+        {
+            newMat = Resources.Load("BotRadius", typeof(Material)) as Material;
+            radius = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            radius.GetComponent<Renderer>().material = newMat;
+            radius.GetComponent<Renderer>().transform.localScale += new Vector3(0.5f, 0.5f, 0f);
+            
+        }
 
     }
 
@@ -91,6 +102,24 @@ public class BotBehavior : MonoBehaviour
 
     void BlueUpdate()
     {
+        //Update radius position
+        if (radius.GetComponent<Renderer>().enabled == false)
+        {
+            radius.GetComponent<Renderer>().enabled = true;
+            newMat = Resources.Load("BotRadius", typeof(Material)) as Material;
+            radius.GetComponent<Renderer>().material = newMat;
+        }
+            
+        radius.transform.position = rb.transform.position;
+            if (this.gameObject.GetComponent<BotBehavior>().isCorrupted && !this.isMaterialChanged)
+            {
+                newMat = Resources.Load("EvilRadius", typeof(Material)) as Material;
+                radius.GetComponent<Renderer>().material = newMat;
+                this.isMaterialChanged = true;
+            }
+            
+
+
         //Slowly move towards an enemy
         if (target == null || target.activeSelf == false)
         {
@@ -99,7 +128,7 @@ public class BotBehavior : MonoBehaviour
         if (target != null)
         {
             movement = (target.transform.position - transform.position).normalized * speed;
-            movement /= 5;
+            movement /= 10;
         } else
         {
             movement.Set(0f, 0f);
@@ -226,4 +255,7 @@ public class BotBehavior : MonoBehaviour
         target = null;
         this.gameObject.tag = corruption ? "CorruptedBot" : "Bot";
     }
+
+
 }
+

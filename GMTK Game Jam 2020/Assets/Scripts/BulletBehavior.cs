@@ -36,10 +36,18 @@ public class BulletBehavior : MonoBehaviour
         GameObject collidedObj = collision.gameObject;
         if (!isCorrupted && (collidedObj.tag == "Enemy" || collidedObj.tag == "CorruptedBot"))
         {
+            if (collidedObj.tag == "CorruptedBot" && collidedObj.gameObject.GetComponent<BotBehavior>().behaviorType == BotBehavior.BehaviorType.Blue) 
+            {
+                collidedObj.gameObject.GetComponent<BotBehavior>().radius.GetComponent<Renderer>().enabled = false;
+            }
             collidedObj.SetActive(false);
         }
         if (isCorrupted && collidedObj.tag == "Bot")
         {
+            if (collidedObj.gameObject.GetComponent<BotBehavior>().behaviorType == BotBehavior.BehaviorType.Blue) 
+            {
+                collidedObj.gameObject.GetComponent<BotBehavior>().radius.GetComponent<Renderer>().enabled = false;
+            }
             collidedObj.SetActive(false);
         }
         duration = 0;
