@@ -120,9 +120,7 @@ public class GameController : MonoBehaviour
             newPickupScript.gameControllerInstance = this.gameObject;
             newPickupScript.points = Random.Range(1, 5);
             newPickupScript.position = new Vector3(Random.Range(-5f, 5f), Random.Range(-2f, 2f), 0f);
-            Debug.Log("New Position is " + newPickupScript.position);
             newPickup.SetActive(true);
-            Debug.Log("New points up!");
         }
     }
 
@@ -150,6 +148,7 @@ public class GameController : MonoBehaviour
             BotBehavior newBotScript = newBot.GetComponent<BotBehavior>();
             newBotScript.behaviorType = bType;
             newBotScript.gameControllerInstance = this.gameObject;
+            newBotScript.Corrupt(false);
             newBotScript.bullet = null;
             newBot.SetActive(true);
         }
@@ -168,7 +167,7 @@ public class GameController : MonoBehaviour
         {
             curr = random.Next(1, 101);
             if (botsList[i].activeInHierarchy && curr <= corruptionChance) {
-                botsList[i].GetComponent<BotBehavior>().isCorrupted = true;
+                botsList[i].GetComponent<BotBehavior>().Corrupt(true);
             }
         }
     }

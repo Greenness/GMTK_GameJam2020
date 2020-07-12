@@ -35,7 +35,7 @@ public class BulletBehavior : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject collidedObj = collision.gameObject;
-        if (collidedObj.tag == "Enemy")
+        if (collidedObj.tag == "Enemy" || collidedObj.tag == "CorruptedBot")
         {
             collidedObj.SetActive(false);
         }

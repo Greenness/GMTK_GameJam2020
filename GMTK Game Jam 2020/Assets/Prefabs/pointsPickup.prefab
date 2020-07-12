@@ -113,3 +113,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameControllerInstance: {fileID: 0}
   points: 5
+  position: {x: 0, y: 0, z: 0}
