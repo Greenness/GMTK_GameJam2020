@@ -166,22 +166,16 @@ public class BotBehavior : MonoBehaviour
             foreach (Collider2D hittable in hittableObjs)
             {
                 GameObject hittabledObject = hittable.gameObject;
-                if (!isCorrupted && (hittabledObject.tag == "Enemy" || hittabledObject.tag == "CorruptedBot"))
+                if ((isCorrupted && hittabledObject.tag != "Bot") || 
+                    (!isCorrupted && (hittabledObject.tag != "Enemy" && hittabledObject.tag != "CorruptedBot")))
                 {
+                    continue;
+                }
                     Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
                     Vector2 bulletVelocity = hittableDirection * bulletSpeed;
                     Vector3 bulletStartingPosition = transform.position + 2f * hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
                     bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletVelocity, bulletLifeSpan);
                     return;
-                }
-                if (isCorrupted && hittabledObject.tag == "Bot")
-                {
-                    Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
-                    Vector2 bulletVelocity = hittableDirection * bulletSpeed;
-                    Vector3 bulletStartingPosition = transform.position + 2f * hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
-                    bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletVelocity, bulletLifeSpan);
-                    return;
-                }
             }
 
         }
@@ -189,21 +183,29 @@ public class BotBehavior : MonoBehaviour
 
     GameObject FindTarget()
     {
+        float closestDistanceSquared = float.PositiveInfinity;
+        GameObject closestTarget = null;
         Collider2D[] detectedObjs = Physics2D.OverlapCircleAll(transform.position, 10.0f);
         foreach (Collider2D detected in detectedObjs)
         {
             GameObject detectedObject = detected.gameObject;
-            if (isCorrupted && detectedObject.tag == "Player")
+            if ((isCorrupted && detectedObject.tag != "Player") || 
+                (!isCorrupted && (detectedObject.tag != "Enemy" && detectedObject.tag != "CorruptedBot")))
             {
-                return detectedObject;
+                continue;
             }
 
-            if (!isCorrupted && (detectedObject.tag == "Enemy" || detectedObject.tag == "CorruptedBot"))
+            float distanceSquared = (transform.position.x - detectedObject.transform.position.x) *
+                (transform.position.x - detectedObject.transform.position.x) +
+                (transform.position.y - detectedObject.transform.position.y) *
+                (transform.position.y - detectedObject.transform.position.y);
+            if (distanceSquared < closestDistanceSquared)
             {
-                return detectedObject;
+                closestDistanceSquared = distanceSquared;
+                closestTarget = detectedObject;
             }
         }
-        return null;
+        return closestTarget;
     }
 
     public void Corrupt(bool corruption)

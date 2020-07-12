@@ -217,6 +217,7 @@ public class GameController : MonoBehaviour
         }
 
         PlayerMovement playerScript = playerObj.GetComponent<PlayerMovement>();
+        playerObj.transform.position.Set(0f, 0f, 0f);
         playerScript.gameControllerInstance = this.gameObject;
         wave = 1;
         SpawnEnemies();
