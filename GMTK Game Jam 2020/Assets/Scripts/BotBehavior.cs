@@ -258,6 +258,23 @@ public class BotBehavior : MonoBehaviour
         this.gameObject.tag = corruption ? "CorruptedBot" : "Bot";
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameObject collidedObj = collision.gameObject;
+        if ((isCorrupted && collidedObj.tag == "Bot") || (!isCorrupted && collidedObj.tag == "CorruptedBot"))
+        {
+            if (collidedObj.gameObject.GetComponent<BotBehavior>().behaviorType == BotBehavior.BehaviorType.Blue)
+            {
+                collidedObj.gameObject.GetComponent<BotBehavior>().radius.GetComponent<Renderer>().enabled = false;
+            }
+            if (this.behaviorType == BotBehavior.BehaviorType.Blue)
+            {
+                this.radius.GetComponent<Renderer>().enabled = false;
+            }
+            collidedObj.SetActive(false);
+            this.gameObject.SetActive(false);
+        }
+    }
 
 }
 
