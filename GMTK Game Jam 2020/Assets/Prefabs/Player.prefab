@@ -19,7 +19,7 @@ GameObject:
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4752992721581628911
 Transform:
@@ -144,11 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc37a5b225c28da46bc3abc657e56fd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  scoreKeeperInstance: {fileID: 0}
-  botPrefab: {fileID: 6778318916055093886, guid: 8b1b26d61837bd94980f3f36a46cae66,
-    type: 3}
-  botSpawnDist: 0.5
+  gameControllerInstance: {fileID: 0}
   sprites: []
   myDirection: 0
 --- !u!95 &4752992721581628907
@@ -164,7 +160,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: e75f85ca8d50de141a273597c9616f13, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
