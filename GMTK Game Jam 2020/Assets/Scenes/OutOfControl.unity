@@ -158,6 +158,8 @@ MonoBehaviour:
     type: 3}
   bulletPrefab: {fileID: 8129272087025868819, guid: 8b9ef405f593683459839e531bcd7188,
     type: 3}
+  pointsPrefab: {fileID: 8946400166729756876, guid: 0e66c37a51f101e4fa0690e84dbf2974,
+    type: 3}
   waveText: {fileID: 1852306154}
   scoreText: {fileID: 1954507851}
   corruptionChanceText: {fileID: 706385935}

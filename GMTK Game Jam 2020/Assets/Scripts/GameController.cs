@@ -9,14 +9,18 @@ public class GameController : MonoBehaviour
     public GameObject botPrefab;
     public GameObject enemyPrefab;
     public GameObject bulletPrefab;
+    public GameObject pointsPrefab;
     ObjectPooler botPooler;
     ObjectPooler enemyPooler;
     ObjectPooler bulletPooler;
+    ObjectPooler pointsPooler;
     int wave;
     int score;
     int corruptionChance;
-    private float waitTime = 5.0f;
-    private float timer = 0.0f;
+    private float waveTime = 5.0f;
+    private float pointsTime = 7.0f;
+    private float waveTimer = 0.0f;
+    private float pointsTimer = 0.0f;
     public TextMeshProUGUI waveText, scoreText, corruptionChanceText;
 
     // Start is called before the first frame update
@@ -25,24 +29,34 @@ public class GameController : MonoBehaviour
         botPooler = new ObjectPooler(botPrefab);
         enemyPooler = new ObjectPooler(enemyPrefab);
         bulletPooler = new ObjectPooler(bulletPrefab);
+        pointsPooler = new ObjectPooler(pointsPrefab);
 
         GameObject playerObj = (GameObject)Instantiate(playerPrefab);
         PlayerMovement playerScript = playerObj.GetComponent<PlayerMovement>();
         playerScript.gameControllerInstance = this.gameObject;
-        wave = 0;
+        wave = 1;
+        SpawnEnemies();
     }
 
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
+        waveTimer += Time.deltaTime;
+        pointsTimer += Time.deltaTime;
 
-        if (timer > waitTime)
+        if (waveTimer > waveTime)
         {
-            timer = timer - waitTime;
+            waveTimer = waveTimer - waveTime;
             wave += 1;
             waveText.SetText("Wave: " + wave);
             SpawnEnemies();
+        }
+        if (pointsTimer > pointsTime)
+        {
+            Debug.Log("Adding points");
+            pointsTimer = pointsTimer - pointsTime;
+            SpawnPointsPickup();
+            pointsTime = Random.Range(4f, 10f);
         }
         scoreText.SetText("Score: " + score);
         corruptionChanceText.SetText("Corruption Chance: " + corruptionChance + "%");
@@ -86,6 +100,21 @@ public class GameController : MonoBehaviour
             newEnemyScript.movement = Random.onUnitSphere;
             newEnemyScript.gameControllerInstance = this.gameObject;
             newEnemy.SetActive(true);
+        }
+    }
+
+    void SpawnPointsPickup()
+    {
+        GameObject newPickup = pointsPooler.GetPooledObject();
+        if (newPickup != null)
+        {
+            PointsPickup newPickupScript = newPickup.GetComponent<PointsPickup>();
+            newPickupScript.gameControllerInstance = this.gameObject;
+            newPickupScript.points = Random.Range(1, 5);
+            newPickupScript.position = new Vector3(Random.Range(-5f, 5f), Random.Range(-2f, 2f), 0f);
+            Debug.Log("New Position is " + newPickupScript.position);
+            newPickup.SetActive(true);
+            Debug.Log("New points up!");
         }
     }
 
