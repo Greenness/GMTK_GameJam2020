@@ -58,8 +58,8 @@ public class GameController : MonoBehaviour
             wave += 1;
             corruptionChance += 5;
             corruptBotsByChance();
-            waveText.SetText("Wave: " + wave);
-            corruptionChanceText.SetText("Corruption Chance: " + corruptionChance + "%");
+            waveText.SetText("" + wave);
+            corruptionChanceText.SetText("" + corruptionChance + "%");
             SpawnEnemies();
         }
         if (pointsTimer > pointsTime)
@@ -68,11 +68,11 @@ public class GameController : MonoBehaviour
             SpawnPointsPickup();
             pointsTime = Random.Range(4f, 10f);
         }
-        scoreText.SetText("Score: " + score);
+        scoreText.SetText("" + score);
         if (score > highScore)
         {
             highScore = score;
-            HighScoreText.SetText("High Score: " + highScore);
+            HighScoreText.SetText("" + highScore);
         }
         
 
@@ -222,9 +222,9 @@ public class GameController : MonoBehaviour
         playerScript.gameControllerInstance = this.gameObject;
         wave = 1;
         SpawnEnemies();
-        waveText.SetText("Wave: " + wave);
-        corruptionChanceText.SetText("Corruption Chance: " + corruptionChance + "%");
-        scoreText.SetText("Score: " + score);
+        waveText.SetText("" + wave);
+        corruptionChanceText.SetText("" + corruptionChance + "%");
+        scoreText.SetText("" + score);
     }
 
     public bool IsNearBlueBot(Vector2 objectPosition, bool checkCorruptBot)
