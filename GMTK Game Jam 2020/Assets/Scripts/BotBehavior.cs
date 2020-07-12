@@ -34,6 +34,11 @@ public class BotBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ReStart();
+    }
+
+    public void ReStart()
+    {
         isCorrupted = false;
         bullet = null;
         myDirection = Direction.down;
@@ -45,9 +50,7 @@ public class BotBehavior : MonoBehaviour
             radius = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             radius.GetComponent<Renderer>().material = newMat;
             radius.GetComponent<Renderer>().transform.localScale += new Vector3(0.5f, 0.5f, 0f);
-            
         }
-
     }
 
     // Update is called once per frame

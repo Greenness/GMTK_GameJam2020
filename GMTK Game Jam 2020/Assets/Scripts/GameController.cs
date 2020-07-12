@@ -162,6 +162,7 @@ public class GameController : MonoBehaviour
             newBotScript.gameControllerInstance = this.gameObject;
             newBotScript.Corrupt(false);
             newBotScript.bullet = null;
+            newBotScript.ReStart();
             newBot.SetActive(true);
         }
         return newBot;
@@ -209,7 +210,6 @@ public class GameController : MonoBehaviour
                 bot.gameObject.GetComponent<BotBehavior>().radius.GetComponent<Renderer>().enabled = false;
             }
             bot.SetActive(false);
-            
         }
         foreach (GameObject enemy in enemyPooler.getAllPooledObjects())
         {
