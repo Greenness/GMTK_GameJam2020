@@ -44,6 +44,7 @@ public class BulletBehavior : MonoBehaviour
         {
             collidedObj.SetActive(false);
         }
+        duration = 0;
         this.gameObject.SetActive(false);
     }
 }
