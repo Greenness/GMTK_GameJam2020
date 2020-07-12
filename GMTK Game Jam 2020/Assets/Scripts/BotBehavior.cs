@@ -200,7 +200,7 @@ public class BotBehavior : MonoBehaviour
     void FindAimAndShoot()
     {
         float bulletSpeed = behaviorType == BehaviorType.Green ? 2.0f : 5.0f;
-        float bulletLifeSpan = behaviorType == BehaviorType.Green ? 10.0f: 5.0f;
+        float bulletLifeSpan = behaviorType == BehaviorType.Green ? 2.0f: 1.0f;
         if (this.bullet == null || this.bullet.activeSelf == false)
         {
             Collider2D[] hittableObjs = Physics2D.OverlapCircleAll(transform.position, 5);
