@@ -11,41 +11,44 @@ public class GameController : MonoBehaviour
     public GameObject enemyPrefab;
     public GameObject bulletPrefab;
     public GameObject pointsPrefab;
+    GameObject playerObj;
     ObjectPooler botPooler;
     ObjectPooler enemyPooler;
     ObjectPooler bulletPooler;
     ObjectPooler pointsPooler;
     int wave;
     int score;
+    int highScore;
     int corruptionChance;
     private float waveTime = 5.0f;
     private float pointsTime = 7.0f;
     private float waveTimer = 0.0f;
     private float pointsTimer = 0.0f;
-    public TextMeshProUGUI waveText, scoreText, corruptionChanceText;
-    System.Random random = new System.Random();
-    
+    public TextMeshProUGUI waveText, scoreText, corruptionChanceText, HighScoreText, GameOverText;
+    bool isGameOver;
 
     // Start is called before the first frame update
     void Start()
     {
+        playerObj = (GameObject)Instantiate(playerPrefab);
         botPooler = new ObjectPooler(botPrefab);
         enemyPooler = new ObjectPooler(enemyPrefab);
         bulletPooler = new ObjectPooler(bulletPrefab);
         pointsPooler = new ObjectPooler(pointsPrefab);
-        wave = 0;
-        corruptionChance = 0;
-
-        GameObject playerObj = (GameObject)Instantiate(playerPrefab);
-        PlayerMovement playerScript = playerObj.GetComponent<PlayerMovement>();
-        playerScript.gameControllerInstance = this.gameObject;
-        wave = 1;
-        SpawnEnemies();
+        ResetGame();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isGameOver)
+        {
+            if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2") || Input.GetButtonDown("Fire3"))
+            {
+                ResetGame();
+            }
+            return;
+        }
         waveTimer += Time.deltaTime;
         pointsTimer += Time.deltaTime;
 
@@ -66,6 +69,11 @@ public class GameController : MonoBehaviour
             pointsTime = Random.Range(4f, 10f);
         }
         scoreText.SetText("Score: " + score);
+        if (score > highScore)
+        {
+            highScore = score;
+            HighScoreText.SetText("High Score: " + highScore);
+        }
         
 
     }
@@ -158,21 +166,62 @@ public class GameController : MonoBehaviour
     {
         score += points;
     }
+
     public void corruptBotsByChance()
     {
         List<GameObject> botsList = botPooler.getAllPooledObjects();
         int curr;
         for (int i = 0; i < botsList.Count; i++) 
         {
-            curr = random.Next(1, 101);
+            curr = Random.Range(1, 101);
             if (botsList[i].activeInHierarchy && curr <= corruptionChance) {
                 botsList[i].GetComponent<BotBehavior>().Corrupt(true);
             }
         }
     }
 
+    public void GameOver() {
+        GameOverText.gameObject.SetActive(true);
+        playerObj.SetActive(false);
+        isGameOver = true;
+    }
 
-  
+    void ResetGame()
+    {
+        playerObj.SetActive(true);
+        isGameOver = false;
+        GameOverText.gameObject.SetActive(false);
+        wave = 0;
+        score = 0;
+        corruptionChance = 0;
+        waveTime = 5.0f;
+        pointsTime = 7.0f;
+        waveTimer = 0.0f;
+        pointsTimer = 0.0f;
+        
+        foreach (GameObject bot in botPooler.getAllPooledObjects())
+        {
+            bot.SetActive(false);
+        }
+        foreach (GameObject enemy in enemyPooler.getAllPooledObjects())
+        {
+            enemy.SetActive(false);
+        }
+        foreach (GameObject bullet in bulletPooler.getAllPooledObjects())
+        {
+            bullet.SetActive(false);
+        }
+        foreach (GameObject points in pointsPooler.getAllPooledObjects())
+        {
+            points.SetActive(false);
+        }
 
-
+        PlayerMovement playerScript = playerObj.GetComponent<PlayerMovement>();
+        playerScript.gameControllerInstance = this.gameObject;
+        wave = 1;
+        SpawnEnemies();
+        waveText.SetText("Wave: " + wave);
+        corruptionChanceText.SetText("Corruption Chance: " + corruptionChance + "%");
+        scoreText.SetText("Score: " + score);
+    }
 }
