@@ -129,4 +129,23 @@ public class PlayerMovement : MonoBehaviour
         float speed = movement.magnitude;
         anim.SetBool("isMoving", speed > 0);
     }
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameObject collidedObj = collision.gameObject;
+        switch (collidedObj.tag)
+        {
+            case "points":
+                collidedObj.SetActive(false);
+                this.gameControllerInstance.GetComponent<GameController>().AddScore(collidedObj.GetComponent<PointsPickup>().points);
+                break;
+            case "Enemy":
+                this.gameObject.SetActive(false);
+                break;
+            case "CorruptedBot":
+                this.gameObject.SetActive(false);
+                break;
+        }
+    }
 }

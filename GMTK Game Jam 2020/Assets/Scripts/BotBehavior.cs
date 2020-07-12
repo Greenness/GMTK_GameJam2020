@@ -14,9 +14,9 @@ public class BotBehavior : MonoBehaviour
 
     public GameObject gameControllerInstance;
     public BehaviorType behaviorType;
-    public bool isCorrupted;
     public float speed;
     public GameObject bullet;
+    bool isCorrupted;
     Rigidbody2D rb;
     Vector2 movement;
     GameObject target;
@@ -90,23 +90,7 @@ public class BotBehavior : MonoBehaviour
             movement.Set(0f, 0f);
         }
 
-        if (this.bullet == null || this.bullet.activeSelf == false)
-        {
-            Collider2D[] hittableObjs = Physics2D.OverlapCircleAll(transform.position, 1);
-            foreach (Collider2D hittable in hittableObjs)
-            {
-                GameObject hittabledObject = hittable.gameObject;
-                if (hittabledObject.tag == "Enemy")
-                {
-                    Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
-                    Vector2 bulletSpeed = hittableDirection * 5.0f;
-                    Vector3 bulletStartingPosition = transform.position + 2f * hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
-                    bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletSpeed, 5f);
-                    break;
-                }
-            }
-
-        }
+        FindAimAndShoot();
 
     }
 
@@ -118,26 +102,7 @@ public class BotBehavior : MonoBehaviour
     void GreenUpdate()
     {
         // Stay Still
-        
-
-        if (this.bullet == null || this.bullet.activeSelf == false)
-        {
-            Collider2D[] hittableObjs = Physics2D.OverlapCircleAll(transform.position, 5);
-            foreach (Collider2D hittable in hittableObjs)
-            {
-                GameObject hittabledObject = hittable.gameObject;
-                if (hittabledObject.tag == "Enemy")
-                {
-                    Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
-                    Vector2 bulletSpeed = hittableDirection * 2.0f;
-                    Vector3 bulletStartingPosition = transform.position + 2f * hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
-                    bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletSpeed, 2.5f);
-                    break;
-                }
-            }
-
-        }
-        
+        FindAimAndShoot();
     }
 
     void ChangeDirection()
@@ -191,18 +156,60 @@ public class BotBehavior : MonoBehaviour
         anim.SetBool("isCorrupted", isCorrupted);
     }
 
+    void FindAimAndShoot()
+    {
+        float bulletSpeed = behaviorType == BehaviorType.Green ? 2.0f : 5.0f;
+        float bulletLifeSpan = behaviorType == BehaviorType.Green ? 10.0f: 5.0f;
+        if (this.bullet == null || this.bullet.activeSelf == false)
+        {
+            Collider2D[] hittableObjs = Physics2D.OverlapCircleAll(transform.position, 5);
+            foreach (Collider2D hittable in hittableObjs)
+            {
+                GameObject hittabledObject = hittable.gameObject;
+                if (!isCorrupted && (hittabledObject.tag == "Enemy" || hittabledObject.tag == "CorruptedBot"))
+                {
+                    Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
+                    Vector2 bulletVelocity = hittableDirection * bulletSpeed;
+                    Vector3 bulletStartingPosition = transform.position + 2f * hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
+                    bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletVelocity, bulletLifeSpan);
+                    return;
+                }
+                if (isCorrupted && hittabledObject.tag == "Bot")
+                {
+                    Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
+                    Vector2 bulletVelocity = hittableDirection * bulletSpeed;
+                    Vector3 bulletStartingPosition = transform.position + 2f * hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
+                    bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletVelocity, bulletLifeSpan);
+                    return;
+                }
+            }
+
+        }
+    }
+
     GameObject FindTarget()
     {
         Collider2D[] detectedObjs = Physics2D.OverlapCircleAll(transform.position, 10.0f);
         foreach (Collider2D detected in detectedObjs)
         {
             GameObject detectedObject = detected.gameObject;
+            if (isCorrupted && detectedObject.tag == "Player")
+            {
+                return detectedObject;
+            }
 
-            if (detectedObject.tag == "Enemy")
+            if (!isCorrupted && (detectedObject.tag == "Enemy" || detectedObject.tag == "CorruptedBot"))
             {
                 return detectedObject;
             }
         }
         return null;
+    }
+
+    public void Corrupt(bool corruption)
+    {
+        isCorrupted = corruption;
+        target = null;
+        this.gameObject.tag = corruption ? "CorruptedBot" : "Bot";
     }
 }

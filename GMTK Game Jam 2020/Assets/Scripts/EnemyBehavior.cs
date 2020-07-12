@@ -184,6 +184,9 @@ public class EnemyBehavior : MonoBehaviour
                     collidedObj.SetActive(false);
                 }
                 break;
+            case "points":
+                collidedObj.SetActive(false);
+                break;
             case "Bullet":
                 this.gameObject.SetActive(false);
                 collidedObj.SetActive(false);
