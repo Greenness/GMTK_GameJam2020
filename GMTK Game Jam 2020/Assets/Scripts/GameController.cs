@@ -61,7 +61,6 @@ public class GameController : MonoBehaviour
         }
         if (pointsTimer > pointsTime)
         {
-            Debug.Log("Adding points");
             pointsTimer = pointsTimer - pointsTime;
             SpawnPointsPickup();
             pointsTime = Random.Range(4f, 10f);
