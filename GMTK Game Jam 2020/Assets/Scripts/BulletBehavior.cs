@@ -6,6 +6,7 @@ public class BulletBehavior : MonoBehaviour
 {
     public Vector2 movement;
     public float lifeSpan;
+    public bool isCorrupted = false;
     float duration;
     Rigidbody2D rb;
 
@@ -35,7 +36,11 @@ public class BulletBehavior : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject collidedObj = collision.gameObject;
-        if (collidedObj.tag == "Enemy" || collidedObj.tag == "CorruptedBot")
+        if (!isCorrupted && (collidedObj.tag == "Enemy" || collidedObj.tag == "CorruptedBot"))
+        {
+            collidedObj.SetActive(false);
+        }
+        if (isCorrupted && collidedObj.tag == "Bot")
         {
             collidedObj.SetActive(false);
         }
