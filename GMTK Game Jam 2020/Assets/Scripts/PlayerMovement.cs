@@ -141,10 +141,10 @@ public class PlayerMovement : MonoBehaviour
                 this.gameControllerInstance.GetComponent<GameController>().AddScore(collidedObj.GetComponent<PointsPickup>().points);
                 break;
             case "Enemy":
-                this.gameObject.SetActive(false);
+                this.gameControllerInstance.GetComponent<GameController>().GameOver();
                 break;
             case "CorruptedBot":
-                this.gameObject.SetActive(false);
+                this.gameControllerInstance.GetComponent<GameController>().GameOver();
                 break;
         }
     }
