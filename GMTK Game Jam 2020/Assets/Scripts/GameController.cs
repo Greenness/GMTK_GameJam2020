@@ -193,7 +193,6 @@ public class GameController : MonoBehaviour
 
     void ResetGame()
     {
-        playerObj.SetActive(true);
         GameOverText.gameObject.SetActive(false);
         wave = 0;
         score = 0;
@@ -233,6 +232,7 @@ public class GameController : MonoBehaviour
         waveText.SetText("" + wave);
         corruptionChanceText.SetText("" + corruptionChance + "%");
         scoreText.SetText("" + score);
+        playerObj.SetActive(true);
         isGameOver = false;
     }
 
