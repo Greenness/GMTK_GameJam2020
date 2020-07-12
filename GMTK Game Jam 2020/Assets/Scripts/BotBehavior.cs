@@ -109,14 +109,14 @@ public class BotBehavior : MonoBehaviour
             newMat = Resources.Load("BotRadius", typeof(Material)) as Material;
             radius.GetComponent<Renderer>().material = newMat;
         }
-            
-        radius.transform.position = rb.transform.position;
-            if (this.gameObject.GetComponent<BotBehavior>().isCorrupted && !this.isMaterialChanged)
-            {
-                newMat = Resources.Load("EvilRadius", typeof(Material)) as Material;
-                radius.GetComponent<Renderer>().material = newMat;
-                this.isMaterialChanged = true;
-            }
+
+        radius.transform.position = transform.position;
+        if (this.gameObject.GetComponent<BotBehavior>().isCorrupted && !this.isMaterialChanged)
+        {
+            newMat = Resources.Load("EvilRadius", typeof(Material)) as Material;
+            radius.GetComponent<Renderer>().material = newMat;
+            this.isMaterialChanged = true;
+        }
             
 
 
