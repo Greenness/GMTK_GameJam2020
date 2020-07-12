@@ -16,7 +16,6 @@ public class EnemyBehavior : MonoBehaviour
     public EnemyType behaviorType;
     public Vector2 movement;
     public float speed = 1.0f;
-    Rigidbody2D rb;
     GameObject target;
     Material newMat;
 
@@ -31,7 +30,6 @@ public class EnemyBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = this.gameObject.GetComponent<Rigidbody2D>();
         myDirection = Direction.down;
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         anim = this.gameObject.GetComponent<Animator>();
@@ -60,12 +58,12 @@ public class EnemyBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (gameControllerInstance.GetComponent<GameController>().IsNearBlueBot(rb.position, false)) 
+        if (gameControllerInstance.GetComponent<GameController>().IsNearBlueBot(transform.position, false)) 
         {
-            rb.MovePosition((rb.position + (movement/5) * Time.deltaTime));
+            transform.position = transform.position + ((Vector3)movement/5) * Time.deltaTime;
         } else 
         {
-            rb.MovePosition(rb.position + movement * Time.deltaTime);
+            transform.position = transform.position + (Vector3)movement * Time.deltaTime;
         }
 
     }

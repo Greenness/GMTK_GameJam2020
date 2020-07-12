@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI waveText, scoreText, corruptionChanceText, HighScoreText, GameOverText;
     bool isGameOver;
 
+    const float outOfBoundsRadius = 5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -89,7 +91,8 @@ public class GameController : MonoBehaviour
             int numEnemies = (int)Mathf.Log(wave, 2f) + 1;
             for (int i = 0; i < numEnemies; i++)
             {
-                Vector3 initialLocation = 3 * Random.onUnitSphere;
+                float angle = 2.0f * Mathf.PI * Random.Range(0f, 1f);
+                Vector3 initialLocation = new Vector3(outOfBoundsRadius * Mathf.Cos(angle), outOfBoundsRadius * Mathf.Sin(angle));
                 SpawnEnemy(initialLocation, EnemyBehavior.EnemyType.Red);
             }
         } else
@@ -97,7 +100,8 @@ public class GameController : MonoBehaviour
             int numEnemies = wave / 2;
             for (int i = 0; i < numEnemies; i++)
             {
-                Vector3 initialLocation = 3 * Random.onUnitSphere;
+                float angle = 2.0f * Mathf.PI * Random.Range(0f, 1f);
+                Vector3 initialLocation = new Vector3(outOfBoundsRadius * Mathf.Cos(angle), outOfBoundsRadius * Mathf.Sin(angle));
                 SpawnEnemy(initialLocation, EnemyBehavior.EnemyType.Red);
             }
 
@@ -126,7 +130,7 @@ public class GameController : MonoBehaviour
             PointsPickup newPickupScript = newPickup.GetComponent<PointsPickup>();
             newPickupScript.gameControllerInstance = this.gameObject;
             newPickupScript.points = Random.Range(1, 5);
-            newPickupScript.position = new Vector3(Random.Range(-5f, 5f), Random.Range(-2f, 2f), 0f);
+            newPickupScript.position = new Vector3(Random.Range(-4f, 4f), Random.Range(-1.5f, 1.5f), 0f);
             newPickup.SetActive(true);
         }
     }

@@ -8,12 +8,10 @@ public class BulletBehavior : MonoBehaviour
     public float lifeSpan;
     public bool isCorrupted = false;
     float duration;
-    Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = this.gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -30,7 +28,7 @@ public class BulletBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * Time.deltaTime);
+        transform.position = transform.position + (Vector3)movement * Time.deltaTime;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -52,6 +50,7 @@ public class BulletBehavior : MonoBehaviour
             }
             collidedObj.SetActive(false);
         }
+        duration = 0;
         this.gameObject.SetActive(false);
     }
 }

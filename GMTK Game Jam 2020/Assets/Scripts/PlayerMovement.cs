@@ -6,10 +6,9 @@ public class PlayerMovement : MonoBehaviour
 {
     public GameObject gameControllerInstance;
     Vector3 pos;
-    Rigidbody2D rb;
     Vector2 movement;
 
-    float moveSpeed = 5f;
+    float moveSpeed = 2f;
     float botSpawnDist = 0.5f;
 
     //Sprites and Animator
@@ -24,7 +23,6 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = this.gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         myDirection = Direction.down;
         sprites = new Sprite[3];
@@ -75,14 +73,13 @@ public class PlayerMovement : MonoBehaviour
 
 
     void FixedUpdate() {
-        if (gameControllerInstance.GetComponent<GameController>().IsNearBlueBot(rb.position, true))
+        if (gameControllerInstance.GetComponent<GameController>().IsNearBlueBot(transform.position, true))
         {
-            rb.MovePosition((rb.position + movement * (moveSpeed/3) * Time.deltaTime));
+            transform.position = transform.position + (Vector3)movement * (moveSpeed/3) * Time.deltaTime;
         } else 
         {
-            rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
+            transform.position = transform.position + (Vector3)movement * moveSpeed * Time.deltaTime;
         }
-        
     }
 
     void ChangeDirection()
