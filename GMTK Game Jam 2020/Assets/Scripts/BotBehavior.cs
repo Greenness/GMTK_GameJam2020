@@ -158,10 +158,6 @@ public class BotBehavior : MonoBehaviour
 
     void FindAimAndShoot()
     {
-        if (isCorrupted)
-        {
-            return;
-        }
         float bulletSpeed = behaviorType == BehaviorType.Green ? 2.0f : 5.0f;
         float bulletLifeSpan = behaviorType == BehaviorType.Green ? 10.0f: 5.0f;
         if (this.bullet == null || this.bullet.activeSelf == false)
@@ -170,7 +166,15 @@ public class BotBehavior : MonoBehaviour
             foreach (Collider2D hittable in hittableObjs)
             {
                 GameObject hittabledObject = hittable.gameObject;
-                if (hittabledObject.tag == "Enemy" || hittabledObject.tag == "CorruptedBot")
+                if (!isCorrupted && (hittabledObject.tag == "Enemy" || hittabledObject.tag == "CorruptedBot"))
+                {
+                    Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
+                    Vector2 bulletVelocity = hittableDirection * bulletSpeed;
+                    Vector3 bulletStartingPosition = transform.position + 2f * hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
+                    bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletVelocity, bulletLifeSpan);
+                    return;
+                }
+                if (isCorrupted && hittabledObject.tag == "Bot")
                 {
                     Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
                     Vector2 bulletVelocity = hittableDirection * bulletSpeed;
