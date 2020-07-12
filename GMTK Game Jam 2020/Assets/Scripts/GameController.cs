@@ -58,7 +58,7 @@ public class GameController : MonoBehaviour
         {
             waveTimer = waveTimer - waveTime;
             wave += 1;
-            corruptionChance += 5;
+            corruptionChance = Mathf.Min(corruptionChance + 5, 80);
             corruptBotsByChance();
             waveText.SetText("" + wave);
             corruptionChanceText.SetText("" + corruptionChance + "%");
