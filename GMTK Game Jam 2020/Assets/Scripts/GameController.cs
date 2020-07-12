@@ -130,7 +130,7 @@ public class GameController : MonoBehaviour
             PointsPickup newPickupScript = newPickup.GetComponent<PointsPickup>();
             newPickupScript.gameControllerInstance = this.gameObject;
             newPickupScript.points = Random.Range(1, 5);
-            newPickupScript.position = new Vector3(Random.Range(-5f, 5f), Random.Range(-2f, 2f), 0f);
+            newPickupScript.position = new Vector3(Random.Range(-4f, 4f), Random.Range(-1.5f, 1.5f), 0f);
             newPickup.SetActive(true);
         }
     }

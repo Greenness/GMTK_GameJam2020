@@ -17,7 +17,6 @@ public class BotBehavior : MonoBehaviour
     public float speed;
     public GameObject bullet;
     public bool isCorrupted;
-    Rigidbody2D rb;
     Vector2 movement;
     GameObject target;
 
@@ -34,7 +33,6 @@ public class BotBehavior : MonoBehaviour
     {
         isCorrupted = false;
         bullet = null;
-        rb = this.gameObject.GetComponent<Rigidbody2D>();
         myDirection = Direction.down;
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         anim = this.gameObject.GetComponent<Animator>();
@@ -66,10 +64,10 @@ public class BotBehavior : MonoBehaviour
     void FixedUpdate()
     {
         if (behaviorType != BehaviorType.Green) {
-            Vector2 pos = rb.position + movement * Time.deltaTime;
+            Vector2 pos = transform.position + (Vector3)movement * Time.deltaTime;
             pos.x = Mathf.Clamp(pos.x, -5f, 5f);
             pos.y = Mathf.Clamp(pos.y, -2f, 2f);
-            rb.MovePosition(pos);
+            transform.position = pos;
         }
     }
 
