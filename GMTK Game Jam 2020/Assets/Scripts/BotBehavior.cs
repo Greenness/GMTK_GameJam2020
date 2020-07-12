@@ -16,7 +16,7 @@ public class BotBehavior : MonoBehaviour
     public BehaviorType behaviorType;
     public float speed;
     public GameObject bullet;
-    bool isCorrupted;
+    public bool isCorrupted;
     Rigidbody2D rb;
     Vector2 movement;
     GameObject target;
@@ -39,9 +39,6 @@ public class BotBehavior : MonoBehaviour
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         anim = this.gameObject.GetComponent<Animator>();
 
-        if (behaviorType == BehaviorType.Blue) {
-            rb.bodyType = RigidbodyType2D.Static;
-        }
     }
 
     // Update is called once per frame
@@ -68,7 +65,7 @@ public class BotBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (behaviorType == BehaviorType.Red) {
+        if (behaviorType != BehaviorType.Green) {
             Vector2 pos = rb.position + movement * Time.deltaTime;
             pos.x = Mathf.Clamp(pos.x, -5f, 5f);
             pos.y = Mathf.Clamp(pos.y, -2f, 2f);
@@ -96,7 +93,19 @@ public class BotBehavior : MonoBehaviour
 
     void BlueUpdate()
     {
-        //Nothing at the moment. Is a static rigidbody that cannot be moved and blocks enemies 
+        //Slowly move towards an enemy
+        if (target == null || target.activeSelf == false)
+        {
+            target = FindTarget();
+        }
+        if (target != null)
+        {
+            movement = (target.transform.position - transform.position).normalized * speed;
+            movement /= 5;
+        } else
+        {
+            movement.Set(0f, 0f);
+        }
     }
 
     void GreenUpdate()
