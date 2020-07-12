@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
 public class GameController : MonoBehaviour
 {
     public GameObject playerPrefab;
@@ -22,6 +23,8 @@ public class GameController : MonoBehaviour
     private float waveTimer = 0.0f;
     private float pointsTimer = 0.0f;
     public TextMeshProUGUI waveText, scoreText, corruptionChanceText;
+    System.Random random = new System.Random();
+    
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +33,8 @@ public class GameController : MonoBehaviour
         enemyPooler = new ObjectPooler(enemyPrefab);
         bulletPooler = new ObjectPooler(bulletPrefab);
         pointsPooler = new ObjectPooler(pointsPrefab);
+        wave = 0;
+        corruptionChance = 0;
 
         GameObject playerObj = (GameObject)Instantiate(playerPrefab);
         PlayerMovement playerScript = playerObj.GetComponent<PlayerMovement>();
@@ -48,7 +53,10 @@ public class GameController : MonoBehaviour
         {
             waveTimer = waveTimer - waveTime;
             wave += 1;
+            corruptionChance += 5;
+            corruptBotsByChance();
             waveText.SetText("Wave: " + wave);
+            corruptionChanceText.SetText("Corruption Chance: " + corruptionChance + "%");
             SpawnEnemies();
         }
         if (pointsTimer > pointsTime)
@@ -59,7 +67,7 @@ public class GameController : MonoBehaviour
             pointsTime = Random.Range(4f, 10f);
         }
         scoreText.SetText("Score: " + score);
-        corruptionChanceText.SetText("Corruption Chance: " + corruptionChance + "%");
+        
 
     }
 
@@ -152,4 +160,21 @@ public class GameController : MonoBehaviour
     {
         score += points;
     }
+    public void corruptBotsByChance()
+    {
+        List<GameObject> botsList = botPooler.getAllPooledObjects();
+        int curr;
+        for (int i = 0; i < botsList.Count; i++) 
+        {
+            curr = random.Next(1, 101);
+            if (botsList[i].activeInHierarchy && curr <= corruptionChance) {
+                botsList[i].GetComponent<BotBehavior>().isCorrupted = true;
+            }
+        }
+    }
+
+
+  
+
+
 }

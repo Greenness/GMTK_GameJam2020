@@ -52,4 +52,9 @@ public class ObjectPooler : MonoBehaviour
         pooledObjects.Add(obj);
         return obj;
     }
+
+    public List<GameObject> getAllPooledObjects()
+    {
+        return pooledObjects;
+    }
 }
