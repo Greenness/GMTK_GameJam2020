@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate() {
         if (gameControllerInstance.GetComponent<GameController>().IsNearBlueBot(rb.position, true))
         {
-            rb.MovePosition((rb.position + movement * (moveSpeed/2) * Time.deltaTime));
+            rb.MovePosition((rb.position + movement * (moveSpeed/3) * Time.deltaTime));
         } else 
         {
             rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
