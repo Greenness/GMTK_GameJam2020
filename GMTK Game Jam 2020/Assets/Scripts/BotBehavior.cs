@@ -161,6 +161,11 @@ public class BotBehavior : MonoBehaviour
         anim.SetBool("Up", myDirection == Direction.up);
         anim.SetBool("Side", myDirection == Direction.right ^ myDirection == Direction.left);
 
+        //Set Color
+        anim.SetBool("Red", behaviorType == BehaviorType.Red);
+        anim.SetBool("Blue", behaviorType == BehaviorType.Blue);
+        anim.SetBool("Green", behaviorType == BehaviorType.Green);
+
         //Is Corrupted?
         anim.SetBool("isCorrupted", isCorrupted);
     }
