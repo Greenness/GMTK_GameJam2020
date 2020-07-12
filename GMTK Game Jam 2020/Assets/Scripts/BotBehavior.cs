@@ -34,7 +34,6 @@ public class BotBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ReStart();
     }
 
     public void ReStart()
