@@ -38,6 +38,10 @@ public class BotBehavior : MonoBehaviour
         myDirection = Direction.down;
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         anim = this.gameObject.GetComponent<Animator>();
+
+        if (behaviorType == BehaviorType.Blue) {
+            rb.bodyType = RigidbodyType2D.Static;
+        }
     }
 
     // Update is called once per frame
@@ -64,10 +68,12 @@ public class BotBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 pos = rb.position + movement * Time.deltaTime;
-        pos.x = Mathf.Clamp(pos.x, -5f, 5f);
-        pos.y = Mathf.Clamp(pos.y, -2f, 2f);
-        rb.MovePosition(pos);
+        if (behaviorType == BehaviorType.Red) {
+            Vector2 pos = rb.position + movement * Time.deltaTime;
+            pos.x = Mathf.Clamp(pos.x, -5f, 5f);
+            pos.y = Mathf.Clamp(pos.y, -2f, 2f);
+            rb.MovePosition(pos);
+        }
     }
 
     void RedUpdate()
@@ -106,12 +112,32 @@ public class BotBehavior : MonoBehaviour
 
     void BlueUpdate()
     {
-        // 
+        //Nothing at the moment. Is a static rigidbody that cannot be moved and blocks enemies 
     }
 
     void GreenUpdate()
     {
         // Stay Still
+        
+
+        if (this.bullet == null || this.bullet.activeSelf == false)
+        {
+            Collider2D[] hittableObjs = Physics2D.OverlapCircleAll(transform.position, 5);
+            foreach (Collider2D hittable in hittableObjs)
+            {
+                GameObject hittabledObject = hittable.gameObject;
+                if (hittabledObject.tag == "Enemy")
+                {
+                    Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
+                    Vector2 bulletSpeed = hittableDirection * 2.0f;
+                    Vector3 bulletStartingPosition = transform.position + 2f * hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
+                    bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletSpeed, 2.5f);
+                    break;
+                }
+            }
+
+        }
+        
     }
 
     void ChangeDirection()

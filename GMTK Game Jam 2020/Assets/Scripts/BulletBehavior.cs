@@ -23,6 +23,7 @@ public class BulletBehavior : MonoBehaviour
         if (duration > lifeSpan)
         {
             this.gameObject.SetActive(false);
+            duration = 0;
         }
     }
 

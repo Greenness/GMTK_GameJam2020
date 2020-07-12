@@ -180,7 +180,9 @@ public class EnemyBehavior : MonoBehaviour
                 collidedObj.SetActive(false);
                 break;
             case "Bot":
-                collidedObj.SetActive(false);
+                if (collidedObj.gameObject.GetComponent<BotBehavior>().behaviorType != BotBehavior.BehaviorType.Blue) {
+                    collidedObj.SetActive(false);
+                }
                 break;
             case "Bullet":
                 this.gameObject.SetActive(false);
