@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
     Vector2 movement;
 
-    float moveSpeed = 5f;
+    float moveSpeed = 2f;
     float botSpawnDist = 0.5f;
 
     //Sprites and Animator
