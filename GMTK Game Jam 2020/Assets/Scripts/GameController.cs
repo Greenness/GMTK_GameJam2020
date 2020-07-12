@@ -90,7 +90,7 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < numEnemies; i++)
             {
                 Vector3 initialLocation = 3 * Random.onUnitSphere;
-                SpawnEnemy(initialLocation, (EnemyBehavior.EnemyType)Random.Range(0f, (float)EnemyBehavior.EnemyType.NumEnemyTypes));
+                SpawnEnemy(initialLocation, EnemyBehavior.EnemyType.Red);
             }
         } else
         {
@@ -98,7 +98,7 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < numEnemies; i++)
             {
                 Vector3 initialLocation = 3 * Random.onUnitSphere;
-                SpawnEnemy(initialLocation, (EnemyBehavior.EnemyType)Random.Range(0f, (float)EnemyBehavior.EnemyType.NumEnemyTypes));
+                SpawnEnemy(initialLocation, EnemyBehavior.EnemyType.Red);
             }
 
         }
