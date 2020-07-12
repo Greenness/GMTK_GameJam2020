@@ -202,7 +202,12 @@ public class GameController : MonoBehaviour
         
         foreach (GameObject bot in botPooler.getAllPooledObjects())
         {
+            if (bot.GetComponent<BotBehavior>().behaviorType == BotBehavior.BehaviorType.Blue)
+            {
+                bot.gameObject.GetComponent<BotBehavior>().radius.GetComponent<Renderer>().enabled = false;
+            }
             bot.SetActive(false);
+            
         }
         foreach (GameObject enemy in enemyPooler.getAllPooledObjects())
         {
@@ -229,21 +234,24 @@ public class GameController : MonoBehaviour
 
     public bool IsNearBlueBot(Vector2 objectPosition, bool checkCorruptBot)
     {
-        float threshold = 1f;
+        float threshold = 0.8f;
         List<GameObject> botsList = botPooler.getAllPooledObjects();
         for (int i = 0; i < botsList.Count; i++) 
         {
-            if (botsList[i].GetComponent<BotBehavior>().behaviorType == BotBehavior.BehaviorType.Blue)
-            {
-                if (botsList[i].GetComponent<BotBehavior>().isCorrupted == checkCorruptBot && 
-                botsList[i].GetComponent<BotBehavior>().transform.position.x - objectPosition.x <= threshold &&
-                botsList[i].GetComponent<BotBehavior>().transform.position.y - objectPosition.y <= threshold)
+            if (botsList[i].activeSelf) {
+                if (botsList[i].GetComponent<BotBehavior>().behaviorType == BotBehavior.BehaviorType.Blue)
                 {
-                    return true;
+                    if (botsList[i].GetComponent<BotBehavior>().isCorrupted == checkCorruptBot && 
+                    Vector3.Distance(botsList[i].transform.position, new Vector3(objectPosition[0], objectPosition[1], 0)) <= threshold)
+                    {
+                        return true;
+                    }
                 }
             }
+
         }
         return false;
+        
     }
     
 }

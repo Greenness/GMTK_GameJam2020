@@ -18,6 +18,7 @@ public class EnemyBehavior : MonoBehaviour
     public float speed = 1.0f;
     Rigidbody2D rb;
     GameObject target;
+    Material newMat;
 
     //Directions
     public enum Direction { up, down, left, right };
@@ -61,7 +62,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (gameControllerInstance.GetComponent<GameController>().IsNearBlueBot(rb.position, false)) 
         {
-            rb.MovePosition((rb.position + (movement/2) * Time.deltaTime));
+            rb.MovePosition((rb.position + (movement/5) * Time.deltaTime));
         } else 
         {
             rb.MovePosition(rb.position + movement * Time.deltaTime);
@@ -187,9 +188,11 @@ public class EnemyBehavior : MonoBehaviour
                 collidedObj.SetActive(false);
                 break;
             case "Bot":
-                if (collidedObj.gameObject.GetComponent<BotBehavior>().behaviorType != BotBehavior.BehaviorType.Blue) {
+                    if (collidedObj.gameObject.GetComponent<BotBehavior>().behaviorType == BotBehavior.BehaviorType.Blue) 
+                    {
+                        collidedObj.gameObject.GetComponent<BotBehavior>().radius.GetComponent<Renderer>().enabled = false;
+                    }
                     collidedObj.SetActive(false);
-                }
                 break;
             case "points":
                 collidedObj.SetActive(false);
