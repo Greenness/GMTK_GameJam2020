@@ -131,7 +131,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public GameObject GetNewBullet(Vector3 bulletPosition, Vector2 bulletSpeed, float lifeSpan)
+    public GameObject GetNewBullet(Vector3 bulletPosition, Vector2 bulletSpeed, float lifeSpan, bool isCorrupted)
     {
 
         GameObject newBullet = bulletPooler.GetPooledObject();
@@ -141,6 +141,7 @@ public class GameController : MonoBehaviour
             BulletBehavior newBulletScript = newBullet.GetComponent<BulletBehavior>();
             newBulletScript.movement = bulletSpeed;
             newBulletScript.lifeSpan = lifeSpan;
+            newBulletScript.isCorrupted = isCorrupted;
             newBullet.SetActive(true);
         }
         return newBullet;

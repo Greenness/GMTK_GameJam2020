@@ -174,7 +174,7 @@ public class BotBehavior : MonoBehaviour
                     Vector3 hittableDirection = (hittable.transform.position - transform.position).normalized;
                     Vector2 bulletVelocity = hittableDirection * bulletSpeed;
                     Vector3 bulletStartingPosition = transform.position + 2f * hittableDirection * this.gameObject.GetComponent<BoxCollider2D>().size.magnitude;
-                    bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletVelocity, bulletLifeSpan);
+                    bullet = gameControllerInstance.GetComponent<GameController>().GetNewBullet(bulletStartingPosition, bulletVelocity, bulletLifeSpan, this.isCorrupted);
                     return;
             }
 
